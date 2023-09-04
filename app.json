@@ -2,6 +2,8 @@
   "expo": {
     "name": "quiz_app",
     "slug": "quiz_app",
+    "privacy": "public",
+    "description": "This project is a quiz app that allows users to answer questions in a variety of categories and difficulties",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +27,18 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ace283f3-3604-4e35-90d9-b7315001d17a"
+      }
+    },
+    "owner": "jecabrer",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ace283f3-3604-4e35-90d9-b7315001d17a"
     }
   }
 }
