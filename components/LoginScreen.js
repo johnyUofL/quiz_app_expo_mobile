@@ -12,17 +12,13 @@ function LoginScreen({ navigation }) {
 
     if (user && user.password === password) {
       setError('');
-      navigation.navigate('Home');
+      navigation.navigate('Home', { username: user.username });
     } else {
       setError('Invalid credentials. Please try again.');
     }
   };
 
   const handleSignup = () => {
-    const newUser = { username, password };
-    usersData.users.push(newUser);
-    // TODO: Save the updated usersData to the JSON file (not shown here)
-    setError('');
     navigation.navigate('Signup');
   };
 
