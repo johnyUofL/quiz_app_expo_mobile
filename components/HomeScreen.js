@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 
 function HomeScreen({ route, navigation }) {
   const { username } = route.params;
@@ -28,11 +35,30 @@ function HomeScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.gridContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Flashcards")}
+        >
+          <Text style={styles.buttonText}>Flashcards</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("RandomFlashcards")}
+        >
+          <Text style={styles.buttonText}>Random Flashcards</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("StarredFlashcards")}
+        >
+          <Text style={styles.buttonText}>Starred Flashcards</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.topRightContainer}>
         <Text style={styles.usernameText}>{username}</Text>
         <Button title="Logout" onPress={handleLogout} />
       </View>
-      <Text>Welcome</Text>
     </View>
   );
 }
@@ -40,6 +66,7 @@ function HomeScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#D5F3FE",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -52,6 +79,32 @@ const styles = StyleSheet.create({
   },
   usernameText: {
     marginRight: 10,
+  },
+  gridContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    width: 200,
+    height: 150,
+    margin: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#2565AE",
+    borderWidth: 5,
+    borderColor: "white",
+    borderRadius: 50,
+    elevation: 50,
+    shadowColor: "#177EBC",
+    shadowOffset: { width: 0, height: 20 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  buttonText: {
+    color: "white",
+    textAlign: "center",
   },
 });
 
