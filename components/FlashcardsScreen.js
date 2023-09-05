@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { FlipCard } from "../components/FlipCard";
 import data from "../assets/data.json";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FlashcardsScreen = () => {
   const [index, setIndex] = useState(0);
@@ -15,16 +16,35 @@ const FlashcardsScreen = () => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
+  const [starredCards, setStarredCards] = useState({});
+  const [isStarred, setIsStarred] = useState(false);
 
   const prevCard = () => {
     setIndex((prev) => (prev > 0 ? prev - 1 : cards.length - 1));
     setIsFlipped(false);
+    setIsStarred(false);
   };
 
   const nextCard = () => {
     setIndex((prev) => (prev < cards.length - 1 ? prev + 1 : 0));
     setIsFlipped(false);
+    setIsStarred(false);
   };
+
+  const toggleStar = () => {
+    const updatedStarredCards = { ...starredCards };
+    if (isStarred) {
+      delete updatedStarredCards[index];
+    } else {
+      updatedStarredCards[index] = cards[index];
+    }
+    setStarredCards(updatedStarredCards);
+    setIsStarred(!isStarred);
+  };
+
+  useEffect(() => {
+    AsyncStorage.setItem("starred.json", JSON.stringify(starredCards));
+  }, [starredCards]);
 
   const cardData = cards[index];
   if (!cardData) {
@@ -73,6 +93,12 @@ const FlashcardsScreen = () => {
         </View>
       )}
 
+      <View style={styles.starContainer}>
+        <TouchableOpacity onPress={toggleStar} style={styles.starButton}>
+          <Text style={styles.buttonText}>{isStarred ? "★" : "☆"}</Text>
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.arrowContainer}>
         <TouchableOpacity onPress={prevCard}>
           <Text style={styles.arrow}>{"<"}</Text>
@@ -99,7 +125,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#9bedff",
   },
-
   flipTextFront: {
     color: "white",
     fontSize: 200,
@@ -109,7 +134,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 40,
   },
-
   arrow: {
     color: "#0080FF",
     fontSize: 100,
@@ -125,12 +149,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
-
   flipButtonText: {
     color: "white",
     fontSize: 40,
   },
-
   guessContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -166,6 +188,14 @@ const styles = StyleSheet.create({
     color: "navy",
     fontSize: 20,
     fontWeight: "bold",
+  },
+  starContainer: {
+    marginTop: 20,
+  },
+  starButton: {
+    backgroundColor: "#ffca3a",
+    padding: 10,
+    borderRadius: 10,
   },
 });
 
