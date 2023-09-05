@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import usersData from '../users.json';
 
 function SignupScreen({ navigation }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSignup = () => {
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setErrorMessage('Passwords do not match.');
       return;
     }
 
     // Check if username already exists
     if (usersData.users.some(user => user.username === username)) {
-      setError('Username already exists.');
+      setErrorMessage('Username already exists.');
       return;
     }
 
@@ -26,13 +26,13 @@ function SignupScreen({ navigation }) {
 
     // TODO: Save the updated usersData to the JSON file (not shown here)
 
-    setError('');
+    setErrorMessage('');
     navigation.navigate('Login'); // Navigate to the login screen
   };
 
   return (
     <View style={styles.container}>
-      <Text>Signup</Text>
+      <Text style={styles.title}>Signup</Text>
       <TextInput
         placeholder="Username"
         value={username}
@@ -53,9 +53,13 @@ function SignupScreen({ navigation }) {
         secureTextEntry
         style={styles.input}
       />
-      <Button title="Signup" onPress={handleSignup} />
-      <Button title="Go to Login" onPress={() => navigation.navigate('Login')} />
-      <Text style={styles.errorText}>{error}</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+        <Text style={styles.buttonText}>Signup</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.buttonText}>Go to Login</Text>
+      </TouchableOpacity>
+      <Text style={styles.errorMessage}>{errorMessage}</Text>
     </View>
   );
 }
@@ -63,16 +67,36 @@ function SignupScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#D5F3FE",
     justifyContent: 'center',
     alignItems: 'center',
   },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
   input: {
     width: '80%',
+    backgroundColor: 'white',
     padding: 10,
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: '#0080FF', // Light blue color
+    borderRadius: 8, // Rounded corners
     marginBottom: 10,
   },
-  errorText: {
+  button: {
+    backgroundColor: '#0080FF',
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+  errorMessage: {
     color: 'red',
     marginTop: 10,
   },

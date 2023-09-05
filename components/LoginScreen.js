@@ -1,30 +1,36 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import usersData from '../users.json';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import usersData from "../users.json";
 
 function LoginScreen({ navigation }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = () => {
-    const user = usersData.users.find(user => user.username === username);
+    const user = usersData.users.find((user) => user.username === username);
 
     if (user && user.password === password) {
-      setError('');
-      navigation.navigate('Home', { username: user.username });
+      setErrorMessage("");
+      navigation.navigate("Home", { username: user.username });
     } else {
-      setError('Invalid credentials. Please try again.');
+      setErrorMessage("Invalid credentials. Please try again.");
     }
   };
 
   const handleSignup = () => {
-    navigation.navigate('Signup');
+    navigation.navigate("Signup");
   };
 
   return (
     <View style={styles.container}>
-      <Text>Login</Text>
+      <Text style={styles.title}>Login</Text>
       <TextInput
         placeholder="Username"
         value={username}
@@ -38,9 +44,13 @@ function LoginScreen({ navigation }) {
         secureTextEntry
         style={styles.input}
       />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Signup" onPress={handleSignup} />
-      <Text style={styles.errorText}>{error}</Text>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+        <Text style={styles.buttonText}>Signup</Text>
+      </TouchableOpacity>
+      <Text style={styles.errorMessage}>{errorMessage}</Text>
     </View>
   );
 }
@@ -48,17 +58,37 @@ function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#D5F3FE",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
   },
   input: {
     width: '80%',
+    backgroundColor: 'white',
     padding: 10,
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: '#0080FF', // Light blue color
+    borderRadius: 8, // Rounded corners
     marginBottom: 10,
   },
-  errorText: {
-    color: 'red',
+  button: {
+    backgroundColor: "#0080FF",
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    textAlign: "center",
+  },
+  errorMessage: {
+    color: "red",
     marginTop: 10,
   },
 });
