@@ -22,7 +22,7 @@ export default function App() {
           name="Home"
           component={HomeScreen}
           options={{
-            headerLeft: () => null, // This hides the back button, We want to go back just when We log out.
+            headerLeft: () => null, // This hides the back button, We want to go back to login screen just when We log out.
           }}
         />
         <Stack.Screen name="Flashcards" component={FlashcardsScreen} />

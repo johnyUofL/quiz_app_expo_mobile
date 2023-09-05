@@ -15,12 +15,12 @@ const RandomFlashcardsScreen = () => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setCards(shuffleArray([...data]));
   }, []);
 
-  // Fisher-Yates (aka Durstenfeld) array shuffle algorithm
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -29,14 +29,23 @@ const RandomFlashcardsScreen = () => {
     return array;
   };
 
-  const prevCard = () => {
-    setIndex((prev) => (prev > 0 ? prev - 1 : cards.length - 1));
+  const switchCard = (action) => {
+    setIsLoading(true);
     setIsFlipped(false);
+    action(); // Call the provided action immediately
+    setIsLoading(false);
+  };
+
+  const prevCard = () => {
+    switchCard(() =>
+      setIndex((prev) => (prev > 0 ? prev - 1 : cards.length - 1))
+    );
   };
 
   const nextCard = () => {
-    setIndex((prev) => (prev < cards.length - 1 ? prev + 1 : 0));
-    setIsFlipped(false);
+    switchCard(() =>
+      setIndex((prev) => (prev < cards.length - 1 ? prev + 1 : 0))
+    );
   };
 
   const cardData = cards[index];
@@ -57,11 +66,15 @@ const RandomFlashcardsScreen = () => {
           <Text style={styles.flipTextFront}>{cardData.character}</Text>
         }
         backContent={
-          <Text style={styles.flipTextBack}>
-            ({cardData.pinyin}){"\n"}
-            {"\n"}
-            {cardData.meaning}
-          </Text>
+          isFlipped ? (
+            <Text style={styles.flipTextBack}>
+              ({cardData.pinyin}){"\n"}
+              {"\n"}
+              {cardData.meaning}
+            </Text>
+          ) : (
+            <Text style={styles.flipTextBack}></Text>
+          )
         }
       />
 
@@ -83,16 +96,17 @@ const RandomFlashcardsScreen = () => {
       )}
 
       <View style={styles.arrowContainer}>
-        <TouchableOpacity onPress={prevCard}>
+        <TouchableOpacity onPress={prevCard} disabled={isLoading}>
           <Text style={styles.arrow}>{"<"}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setIsFlipped(!isFlipped)}
           style={styles.flipButton}
+          disabled={isLoading}
         >
           <Text style={styles.flipButtonText}>Flip</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={nextCard}>
+        <TouchableOpacity onPress={nextCard} disabled={isLoading}>
           <Text style={styles.arrow}>{">"}</Text>
         </TouchableOpacity>
       </View>

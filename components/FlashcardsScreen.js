@@ -44,11 +44,15 @@ const FlashcardsScreen = () => {
           <Text style={styles.flipTextFront}>{cardData.character}</Text>
         }
         backContent={
-          <Text style={styles.flipTextBack}>
-            ({cardData.pinyin}){"\n"}
-            {"\n"}
-            {cardData.meaning}
-          </Text>
+          isFlipped ? (
+            <Text style={styles.flipTextBack}>
+              ({cardData.pinyin}){"\n"}
+              {"\n"}
+              {cardData.meaning}
+            </Text>
+          ) : (
+            <Text style={styles.flipTextBack}></Text>
+          )
         }
       />
 
