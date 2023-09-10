@@ -5,10 +5,14 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  Image,
 } from "react-native";
 import { FlipCard } from "../components/FlipCard";
 import data from "../assets/data.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const animationCorrect = require("../assets/animations/correct.gif");
+const animationIncorrect = require("../assets/animations/incorrect.gif");
 
 const FlashcardsScreen = () => {
   const [index, setIndex] = useState(0);
@@ -18,17 +22,38 @@ const FlashcardsScreen = () => {
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [starredCards, setStarredCards] = useState({});
   const [isStarred, setIsStarred] = useState(false);
+  const [showAnimationCorrect, setShowAnimationCorrect] = useState(false);
+  const [showAnimationIncorrect, setShowAnimationIncorrect] = useState(false);
+
+  // Retrieve the stored starred cards when the component mounts
+  useEffect(() => {
+    const getStarredCards = async () => {
+      const storedStarredCards = await AsyncStorage.getItem("starred.json");
+      if (storedStarredCards) {
+        setStarredCards(JSON.parse(storedStarredCards));
+      }
+    };
+    getStarredCards();
+  }, []);
+
+  // Update the isStarred state based on the current card index
+  useEffect(() => {
+    setIsStarred(starredCards.hasOwnProperty(index));
+  }, [index, starredCards]);
+
+  // Store the starred cards in AsyncStorage
+  useEffect(() => {
+    AsyncStorage.setItem("starred.json", JSON.stringify(starredCards));
+  }, [starredCards]);
 
   const prevCard = () => {
     setIndex((prev) => (prev > 0 ? prev - 1 : cards.length - 1));
     setIsFlipped(false);
-    setIsStarred(false);
   };
 
   const nextCard = () => {
     setIndex((prev) => (prev < cards.length - 1 ? prev + 1 : 0));
     setIsFlipped(false);
-    setIsStarred(false);
   };
 
   const toggleStar = () => {
@@ -41,21 +66,15 @@ const FlashcardsScreen = () => {
     setStarredCards(updatedStarredCards);
     setIsStarred(!isStarred);
   };
-
-  useEffect(() => {
-    AsyncStorage.setItem("starred.json", JSON.stringify(starredCards));
-  }, [starredCards]);
-
   const cardData = cards[index];
   if (!cardData) {
     return <ActivityIndicator />;
   }
-
   return (
     <View style={styles.container}>
       <View style={styles.scoreContainer}>
-        <Text style={styles.scoreText}>Correct: {correctCount}</Text>
-        <Text style={styles.scoreText}>Incorrect: {incorrectCount}</Text>
+        <Text style={styles.scoreText}>✓: {correctCount}</Text>
+        <Text style={styles.scoreText}>✘ : {incorrectCount}</Text>
       </View>
       <FlipCard
         isFlipped={isFlipped}
@@ -78,18 +97,36 @@ const FlashcardsScreen = () => {
 
       {isFlipped && (
         <View style={styles.guessContainer}>
+          {/* Correct button */}
           <TouchableOpacity
-            onPress={() => setCorrectCount(correctCount + 1)}
+            onPress={() => {
+              setCorrectCount(correctCount + 1);
+              setShowAnimationCorrect(true);
+              setTimeout(() => {
+                setShowAnimationCorrect(false);
+              }, 2000);
+            }}
             style={styles.correctButton}
           >
             <Text style={styles.buttonText}>Correct</Text>
           </TouchableOpacity>
+          {/* End correct button*/}
+
+          {/* Incorrect button */}
           <TouchableOpacity
-            onPress={() => setIncorrectCount(incorrectCount + 1)}
+            onPress={() => {
+              setIncorrectCount(incorrectCount + 1);
+              setShowAnimationIncorrect(true);
+              setTimeout(() => {
+                setShowAnimationIncorrect(false);
+              }, 2000);
+            }}
             style={styles.incorrectButton}
           >
             <Text style={styles.buttonText}>Incorrect</Text>
           </TouchableOpacity>
+
+          {/* End incorrect button */}
         </View>
       )}
 
@@ -113,6 +150,17 @@ const FlashcardsScreen = () => {
           <Text style={styles.arrow}>{">"}</Text>
         </TouchableOpacity>
       </View>
+
+      {showAnimationCorrect && (
+        <Image source={animationCorrect} style={styles.animationStyleCorrect} />
+      )}
+
+      {showAnimationIncorrect && (
+        <Image
+          source={animationIncorrect}
+          style={styles.animationStyleIncorrect}
+        />
+      )}
     </View>
   );
 };
@@ -181,21 +229,37 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: 250,
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 10,
+    marginBottom: 10,
   },
   scoreText: {
     color: "navy",
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
   },
   starContainer: {
-    marginTop: 20,
+    marginTop: 10,
   },
   starButton: {
     backgroundColor: "#ffca3a",
     padding: 10,
     borderRadius: 10,
+  },
+
+  animationStyleCorrect: {
+    position: "absolute",
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    zIndex: 1000,
+  },
+
+  animationStyleIncorrect: {
+    position: "absolute",
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    zIndex: 1000,
   },
 });
 
