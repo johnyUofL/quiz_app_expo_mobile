@@ -50,7 +50,7 @@ Listen to the track or check its license details [here](https://freemusicarchive
 
 ### Icon and Logo
 
-The icon and logo for this project were obtained from Flaticon and were created by berkahicon. You can view and access the specific [Chinese icons here](https://www.flaticon.com/free-icons/chinese). These assets can be used for non-profit purposes.
+The icon and logo for this project were obtained from Flaticon and were created by berkahicon. You can view and access the specific [icons here](https://www.flaticon.com/free-icons/chinese). These assets can be used for non-profit purposes.
 
 ## Dependencies Used
 
