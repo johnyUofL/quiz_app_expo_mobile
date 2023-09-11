@@ -1,23 +1,24 @@
 # Quiz App for Chinese Characters Readme
 
 ##Using the App
-#For Android
+
+###For Android
 
 To use the app use the following link for Android.
 
 [Expo Update Link](exp://u.expo.dev/update/2f69fe38-7345-445a-8369-bb6e01f175ef)
 
-#For iOS
+###For iOS
 
 To use the app use the following link for iOS.
 
 [Expo Update Link](exp://u.expo.dev/update/ea7dfa28-f73f-4379-a168-8a40128f62b9)
 
-# Installing Locally
+## Installing Locally
 
 Follow the steps below to set up the app on your local machine.
 
-## 1. Install expo-cli
+Install expo-cli
 
 The app requires the Expo CLI for local development. To install it, use:
 
