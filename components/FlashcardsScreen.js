@@ -24,7 +24,8 @@ const FlashcardsScreen = () => {
   const [isStarred, setIsStarred] = useState(false);
   const [showAnimationCorrect, setShowAnimationCorrect] = useState(false);
   const [showAnimationIncorrect, setShowAnimationIncorrect] = useState(false);
-  const [lastAnswered, setLastAnswered] = useState({}); // New state
+  const [lastAnswered, setLastAnswered] = useState({});
+  
 
   useEffect(() => {
     const getStarredCards = async () => {

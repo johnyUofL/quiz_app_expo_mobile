@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
-  Image, // Add Image for the animation
+  Image,
 } from "react-native";
 import { FlipCard } from "../components/FlipCard";
 import data from "../assets/data.json";
@@ -20,9 +20,9 @@ const RandomFlashcardsScreen = () => {
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-
   const [showAnimationCorrect, setShowAnimationCorrect] = useState(false);
   const [showAnimationIncorrect, setShowAnimationIncorrect] = useState(false);
+  const [lastAnswered, setLastAnswered] = useState({});
 
   useEffect(() => {
     setCards(shuffleArray([...data]));
@@ -53,6 +53,34 @@ const RandomFlashcardsScreen = () => {
     switchCard(() =>
       setIndex((prev) => (prev < cards.length - 1 ? prev + 1 : 0))
     );
+  };
+
+  const handleCorrect = () => {
+    if (lastAnswered[index] !== "correct") {
+      if (lastAnswered[index] === "incorrect") {
+        setIncorrectCount(incorrectCount - 1);
+      }
+      setCorrectCount(correctCount + 1);
+      setShowAnimationCorrect(true);
+      setTimeout(() => {
+        setShowAnimationCorrect(false);
+      }, 2000);
+      setLastAnswered({ ...lastAnswered, [index]: "correct" });
+    }
+  };
+
+  const handleIncorrect = () => {
+    if (lastAnswered[index] !== "incorrect") {
+      if (lastAnswered[index] === "correct") {
+        setCorrectCount(correctCount - 1);
+      }
+      setIncorrectCount(incorrectCount + 1);
+      setShowAnimationIncorrect(true);
+      setTimeout(() => {
+        setShowAnimationIncorrect(false);
+      }, 2000);
+      setLastAnswered({ ...lastAnswered, [index]: "incorrect" });
+    }
   };
 
   const cardData = cards[index];
@@ -88,25 +116,14 @@ const RandomFlashcardsScreen = () => {
       {isFlipped && (
         <View style={styles.guessContainer}>
           <TouchableOpacity
-            onPress={() => {
-              setCorrectCount(correctCount + 1);
-              setShowAnimationCorrect(true);
-              setTimeout(() => {
-                setShowAnimationCorrect(false);
-              }, 2000);
-            }}
+            onPress={handleCorrect}
             style={styles.correctButton}
           >
             <Text style={styles.buttonText}>Correct</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
-            onPress={() => {
-              setIncorrectCount(incorrectCount + 1);
-              setShowAnimationIncorrect(true);
-              setTimeout(() => {
-                setShowAnimationIncorrect(false);
-              }, 2000);
-            }}
+            onPress={handleIncorrect}
             style={styles.incorrectButton}
           >
             <Text style={styles.buttonText}>Incorrect</Text>
