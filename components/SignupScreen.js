@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import usersData from '../users.json';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+} from "react-native";
+import usersData from "../users.json";
 
 function SignupScreen({ navigation }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSignup = () => {
     if (password !== confirmPassword) {
-      setErrorMessage('Passwords do not match.');
+      setErrorMessage("Passwords do not match.");
       return;
     }
 
     // Check if username already exists
-    if (usersData.users.some(user => user.username === username)) {
-      setErrorMessage('Username already exists.');
+    if (usersData.users.some((user) => user.username === username)) {
+      setErrorMessage("Username already exists.");
       return;
     }
 
@@ -24,14 +31,16 @@ function SignupScreen({ navigation }) {
     const newUser = { username, password };
     usersData.users.push(newUser);
 
-    // TODO: Save the updated usersData to the JSON file (not shown here)
-
-    setErrorMessage('');
-    navigation.navigate('Login'); // Navigate to the login screen
+    setErrorMessage("");
+    navigation.navigate("Login"); // Navigate to the login screen
   };
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/logo-medium.png")}
+        style={styles.logo}
+      />
       <Text style={styles.title}>Signup</Text>
       <TextInput
         placeholder="Username"
@@ -56,7 +65,10 @@ function SignupScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Login")}
+      >
         <Text style={styles.buttonText}>Go to Login</Text>
       </TouchableOpacity>
       <Text style={styles.errorMessage}>{errorMessage}</Text>
@@ -68,37 +80,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#D5F3FE",
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
   },
   input: {
-    width: '80%',
-    backgroundColor: 'white',
+    width: "80%",
+    backgroundColor: "white",
     padding: 10,
     borderWidth: 2,
-    borderColor: '#0080FF', // Light blue color
+    borderColor: "#0080FF", // Light blue color
     borderRadius: 8, // Rounded corners
     marginBottom: 10,
   },
   button: {
-    backgroundColor: '#0080FF',
+    backgroundColor: "#0080FF",
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 20,
     marginBottom: 10,
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    textAlign: 'center',
+    textAlign: "center",
   },
   errorMessage: {
-    color: 'red',
+    color: "red",
     marginTop: 10,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
   },
 });
 

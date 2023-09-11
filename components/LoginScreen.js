@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image,
 } from "react-native";
 import usersData from "../users.json";
 
@@ -30,6 +31,7 @@ function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Image source={require('../assets/logo-medium.png')} style={styles.logo} />
       <Text style={styles.title}>Login</Text>
       <TextInput
         placeholder="Username"
@@ -91,6 +93,12 @@ const styles = StyleSheet.create({
     color: "red",
     marginTop: 10,
   },
+  logo: {
+    width: 100, 
+    height: 100, 
+    marginBottom: 20,
+  },
+  
 });
 
 export default LoginScreen;

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  Image,
 } from "react-native";
 
 function HomeScreen({ route, navigation }) {
@@ -35,6 +36,10 @@ function HomeScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/logo-small.png")}
+        style={styles.logoScreen}
+      />
       <View style={styles.gridContainer}>
         <TouchableOpacity
           style={styles.button}
@@ -105,6 +110,14 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     textAlign: "center",
+  },
+
+  logoScreen: {
+    width: 50,
+    height: 50,
+    position: "absolute",
+    top: 5,
+    left: 15,
   },
 });
 
