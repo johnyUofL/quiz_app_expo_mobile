@@ -24,8 +24,8 @@ const FlashcardsScreen = () => {
   const [isStarred, setIsStarred] = useState(false);
   const [showAnimationCorrect, setShowAnimationCorrect] = useState(false);
   const [showAnimationIncorrect, setShowAnimationIncorrect] = useState(false);
+  const [lastAnswered, setLastAnswered] = useState({}); // New state
 
-  // Retrieve the stored starred cards when the component loads
   useEffect(() => {
     const getStarredCards = async () => {
       const storedStarredCards = await AsyncStorage.getItem("starred.json");
@@ -36,12 +36,10 @@ const FlashcardsScreen = () => {
     getStarredCards();
   }, []);
 
-  // Update the isStarred state based on the current card index
   useEffect(() => {
     setIsStarred(starredCards.hasOwnProperty(index));
   }, [index, starredCards]);
 
-  // Store the starred cards in AsyncStorage
   useEffect(() => {
     AsyncStorage.setItem("starred.json", JSON.stringify(starredCards));
   }, [starredCards]);
@@ -66,10 +64,41 @@ const FlashcardsScreen = () => {
     setStarredCards(updatedStarredCards);
     setIsStarred(!isStarred);
   };
+
+  // New Handlers
+  const handleCorrect = () => {
+    if (lastAnswered[index] !== "correct") {
+      if (lastAnswered[index] === "incorrect") {
+        setIncorrectCount(incorrectCount - 1);
+      }
+      setCorrectCount(correctCount + 1);
+      setShowAnimationCorrect(true);
+      setTimeout(() => {
+        setShowAnimationCorrect(false);
+      }, 2000);
+      setLastAnswered({ ...lastAnswered, [index]: "correct" });
+    }
+  };
+
+  const handleIncorrect = () => {
+    if (lastAnswered[index] !== "incorrect") {
+      if (lastAnswered[index] === "correct") {
+        setCorrectCount(correctCount - 1);
+      }
+      setIncorrectCount(incorrectCount + 1);
+      setShowAnimationIncorrect(true);
+      setTimeout(() => {
+        setShowAnimationIncorrect(false);
+      }, 2000);
+      setLastAnswered({ ...lastAnswered, [index]: "incorrect" });
+    }
+  };
+
   const cardData = cards[index];
   if (!cardData) {
     return <ActivityIndicator />;
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.scoreContainer}>
@@ -99,13 +128,7 @@ const FlashcardsScreen = () => {
         <View style={styles.guessContainer}>
           {/* Correct button */}
           <TouchableOpacity
-            onPress={() => {
-              setCorrectCount(correctCount + 1);
-              setShowAnimationCorrect(true);
-              setTimeout(() => {
-                setShowAnimationCorrect(false);
-              }, 2000);
-            }}
+            onPress={handleCorrect}
             style={styles.correctButton}
           >
             <Text style={styles.buttonText}>Correct</Text>
@@ -114,13 +137,7 @@ const FlashcardsScreen = () => {
 
           {/* Incorrect button */}
           <TouchableOpacity
-            onPress={() => {
-              setIncorrectCount(incorrectCount + 1);
-              setShowAnimationIncorrect(true);
-              setTimeout(() => {
-                setShowAnimationIncorrect(false);
-              }, 2000);
-            }}
+            onPress={handleIncorrect}
             style={styles.incorrectButton}
           >
             <Text style={styles.buttonText}>Incorrect</Text>
