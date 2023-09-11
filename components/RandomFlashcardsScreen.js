@@ -5,9 +5,13 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  Image, // Add Image for the animation
 } from "react-native";
 import { FlipCard } from "../components/FlipCard";
 import data from "../assets/data.json";
+
+const animationCorrect = require("../assets/animations/correct.gif");
+const animationIncorrect = require("../assets/animations/incorrect.gif");
 
 const RandomFlashcardsScreen = () => {
   const [index, setIndex] = useState(0);
@@ -16,6 +20,9 @@ const RandomFlashcardsScreen = () => {
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [showAnimationCorrect, setShowAnimationCorrect] = useState(false);
+  const [showAnimationIncorrect, setShowAnimationIncorrect] = useState(false);
 
   useEffect(() => {
     setCards(shuffleArray([...data]));
@@ -81,13 +88,25 @@ const RandomFlashcardsScreen = () => {
       {isFlipped && (
         <View style={styles.guessContainer}>
           <TouchableOpacity
-            onPress={() => setCorrectCount(correctCount + 1)}
+            onPress={() => {
+              setCorrectCount(correctCount + 1);
+              setShowAnimationCorrect(true);
+              setTimeout(() => {
+                setShowAnimationCorrect(false);
+              }, 2000);
+            }}
             style={styles.correctButton}
           >
             <Text style={styles.buttonText}>Correct</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setIncorrectCount(incorrectCount + 1)}
+            onPress={() => {
+              setIncorrectCount(incorrectCount + 1);
+              setShowAnimationIncorrect(true);
+              setTimeout(() => {
+                setShowAnimationIncorrect(false);
+              }, 2000);
+            }}
             style={styles.incorrectButton}
           >
             <Text style={styles.buttonText}>Incorrect</Text>
@@ -110,6 +129,17 @@ const RandomFlashcardsScreen = () => {
           <Text style={styles.arrow}>{">"}</Text>
         </TouchableOpacity>
       </View>
+
+      {showAnimationCorrect && (
+        <Image source={animationCorrect} style={styles.animationStyleCorrect} />
+      )}
+
+      {showAnimationIncorrect && (
+        <Image
+          source={animationIncorrect}
+          style={styles.animationStyleIncorrect}
+        />
+      )}
     </View>
   );
 };
@@ -185,6 +215,22 @@ const styles = StyleSheet.create({
     color: "navy",
     fontSize: 20,
     fontWeight: "bold",
+  },
+
+  animationStyleCorrect: {
+    position: "absolute",
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    zIndex: 1000,
+  },
+
+  animationStyleIncorrect: {
+    position: "absolute",
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    zIndex: 1000,
   },
 });
 

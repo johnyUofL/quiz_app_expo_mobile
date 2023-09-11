@@ -5,14 +5,22 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  Image,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FlipCard } from "../components/FlipCard";
+
+const animationCorrect = require("../assets/animations/correct.gif");
+const animationIncorrect = require("../assets/animations/incorrect.gif");
 
 const StarredFlashcardsScreen = () => {
   const [starredCards, setStarredCards] = useState({});
   const [index, setIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const [showAnimationCorrect, setShowAnimationCorrect] = useState(false);
+  const [showAnimationIncorrect, setShowAnimationIncorrect] = useState(false);
 
   useEffect(() => {
     // Load starredCards from 'starred.json' using AsyncStorage
@@ -49,16 +57,33 @@ const StarredFlashcardsScreen = () => {
   const currentStarredCardKey = starredCardKeys[index];
   const currentStarredCard = starredCards[currentStarredCardKey];
 
+  if (!starredCardKeys.length) {
+    return (
+      <View style={styles.noCardsContainer}>
+        <Text style={styles.noCardsText}>Add cards by adding a ★ star!</Text>
+      </View>
+    );
+  }
+
   if (!currentStarredCard) {
     return <ActivityIndicator />;
   }
 
   return (
     <View style={styles.container}>
+      <View style={styles.scoreContainer}>
+        <Text style={styles.scoreText}>✓: {correctCount}</Text>
+        <Text style={styles.scoreText}>✘ : {incorrectCount}</Text>
+      </View>
+
       <FlipCard
         isFlipped={isFlipped}
         setIsFlipped={setIsFlipped}
-        frontContent={<Text style={styles.flipTextFront}>{currentStarredCard.character}</Text>}
+        frontContent={
+          <Text style={styles.flipTextFront}>
+            {currentStarredCard.character}
+          </Text>
+        }
         backContent={
           isFlipped ? (
             <Text style={styles.flipTextBack}>
@@ -71,6 +96,41 @@ const StarredFlashcardsScreen = () => {
         }
       />
 
+      {isFlipped && (
+        <View style={styles.guessContainer}>
+          {/* Correct button */}
+          <TouchableOpacity
+            onPress={() => {
+              setCorrectCount(correctCount + 1);
+              setShowAnimationCorrect(true);
+              setTimeout(() => {
+                setShowAnimationCorrect(false);
+              }, 2000);
+            }}
+            style={styles.correctButton}
+          >
+            <Text style={styles.buttonText}>Correct</Text>
+          </TouchableOpacity>
+          {/* End correct button*/}
+
+          {/* Incorrect button */}
+          <TouchableOpacity
+            onPress={() => {
+              setIncorrectCount(incorrectCount + 1);
+              setShowAnimationIncorrect(true);
+              setTimeout(() => {
+                setShowAnimationIncorrect(false);
+              }, 2000);
+            }}
+            style={styles.incorrectButton}
+          >
+            <Text style={styles.buttonText}>Incorrect</Text>
+          </TouchableOpacity>
+
+          {/* End incorrect button */}
+        </View>
+      )}
+
       <View style={styles.arrowContainer}>
         <TouchableOpacity onPress={prevCard}>
           <Text style={styles.arrow}>{"<"}</Text>
@@ -82,6 +142,17 @@ const StarredFlashcardsScreen = () => {
           <Text style={styles.arrow}>{">"}</Text>
         </TouchableOpacity>
       </View>
+
+      {showAnimationCorrect && (
+        <Image source={animationCorrect} style={styles.animationStyleCorrect} />
+      )}
+
+      {showAnimationIncorrect && (
+        <Image
+          source={animationIncorrect}
+          style={styles.animationStyleIncorrect}
+        />
+      )}
     </View>
   );
 };
@@ -156,7 +227,49 @@ const styles = StyleSheet.create({
     color: "navy",
     fontSize: 20,
     fontWeight: "bold",
-  }
+  },
+  noCardsContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#9bedff",
+  },
+  noCardsText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginHorizontal: 20,
+    color: "red",
+  },
+
+  animationStyleCorrect: {
+    position: "absolute",
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    zIndex: 1000,
+  },
+
+  scoreContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: 250,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  scoreText: {
+    color: "navy",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  animationStyleIncorrect: {
+    position: "absolute",
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    zIndex: 1000,
+  },
 });
 
 export default StarredFlashcardsScreen;

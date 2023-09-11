@@ -25,7 +25,7 @@ const FlashcardsScreen = () => {
   const [showAnimationCorrect, setShowAnimationCorrect] = useState(false);
   const [showAnimationIncorrect, setShowAnimationIncorrect] = useState(false);
 
-  // Retrieve the stored starred cards when the component mounts
+  // Retrieve the stored starred cards when the component loads
   useEffect(() => {
     const getStarredCards = async () => {
       const storedStarredCards = await AsyncStorage.getItem("starred.json");
