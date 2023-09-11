@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { StyleSheet, View, Animated } from "react-native";
 import { customStyles } from "../assets/styles/customStyles";
 
+// FlipCard component
 export const FlipCard = ({
   frontContent,
   backContent,
@@ -10,6 +11,7 @@ export const FlipCard = ({
 }) => {
   const flipAnim = useRef(new Animated.Value(0)).current;
 
+  // useEffect hook to animate the flip effect
   useEffect(() => {
     Animated.spring(flipAnim, {
       toValue: isFlipped ? 180 : 0,
@@ -24,7 +26,7 @@ export const FlipCard = ({
     inputRange: [0, 180],
     outputRange: ["0deg", "180deg"],
   });
-
+  // Interpolation for the flip effect
   const backInterpolate = flipAnim.interpolate({
     inputRange: [0, 180],
     outputRange: ["180deg", "360deg"],
@@ -38,7 +40,8 @@ export const FlipCard = ({
   const backAnimatedStyle = {
     transform: [{ rotateY: backInterpolate }],
   };
-
+  
+//returning the FlipCard component
   return (
     <View style={customStyles.containerFlipcard}>
       <View>

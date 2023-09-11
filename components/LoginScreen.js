@@ -1,3 +1,4 @@
+//importing modules
 import React, { useState } from "react";
 import {
   View,
@@ -8,13 +9,16 @@ import {
   Image,
 } from "react-native";
 import usersData from "../users.json";
-import { customStyles } from '../assets/styles/customStyles';
+import { customStyles } from "../assets/styles/customStyles";
 
+//LoginScreen component
 function LoginScreen({ navigation }) {
+  //initializing the state variables
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  //function to handle the login
   const handleLogin = () => {
     const user = usersData.users.find((user) => user.username === username);
 
@@ -26,13 +30,18 @@ function LoginScreen({ navigation }) {
     }
   };
 
+  //function to handle the signup
   const handleSignup = () => {
     navigation.navigate("Signup");
   };
 
+  //returning the LoginScreen component
   return (
     <View style={customStyles.container}>
-      <Image source={require('../assets/logo-medium.png')} style={customStyles.logo} />
+      <Image
+        source={require("../assets/logo-medium.png")}
+        style={customStyles.logo}
+      />
       <Text style={customStyles.title}>Login</Text>
       <TextInput
         placeholder="Username"

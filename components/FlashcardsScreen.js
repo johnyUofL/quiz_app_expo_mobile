@@ -1,3 +1,4 @@
+//importing the necessary modules
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -12,9 +13,11 @@ import data from "../assets/data.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { customStyles } from "../assets/styles/customStyles";
 
+//adding animation. The animations are gif files located in the assets/animations folder.
 const animationCorrect = require("../assets/animations/correct.gif");
 const animationIncorrect = require("../assets/animations/incorrect.gif");
 
+//initializing the state variables
 const FlashcardsScreen = () => {
   const [index, setIndex] = useState(0);
   const [cards] = useState(data);
@@ -27,6 +30,7 @@ const FlashcardsScreen = () => {
   const [showAnimationIncorrect, setShowAnimationIncorrect] = useState(false);
   const [lastAnswered, setLastAnswered] = useState({});
 
+  //useEffect hook to get the starred cards from the local storage
   useEffect(() => {
     const getStarredCards = async () => {
       const storedStarredCards = await AsyncStorage.getItem("starred.json");
@@ -37,10 +41,12 @@ const FlashcardsScreen = () => {
     getStarredCards();
   }, []);
 
+  //useEffect hook to check if the current card is starred
   useEffect(() => {
     setIsStarred(starredCards.hasOwnProperty(index));
   }, [index, starredCards]);
 
+  //useEffect hook to save the starred cards to the local storage
   useEffect(() => {
     AsyncStorage.setItem("starred.json", JSON.stringify(starredCards));
   }, [starredCards]);
@@ -50,11 +56,13 @@ const FlashcardsScreen = () => {
     setIsFlipped(false);
   };
 
+  //function to go to the next card
   const nextCard = () => {
     setIndex((prev) => (prev < cards.length - 1 ? prev + 1 : 0));
     setIsFlipped(false);
   };
 
+  //function to toggle the star
   const toggleStar = () => {
     const updatedStarredCards = { ...starredCards };
     if (isStarred) {
@@ -66,7 +74,7 @@ const FlashcardsScreen = () => {
     setIsStarred(!isStarred);
   };
 
-  // New Handlers
+  //function to handle the correct answer
   const handleCorrect = () => {
     if (lastAnswered[index] !== "correct") {
       if (lastAnswered[index] === "incorrect") {
@@ -80,7 +88,7 @@ const FlashcardsScreen = () => {
       setLastAnswered({ ...lastAnswered, [index]: "correct" });
     }
   };
-
+  //function to handle the incorrect answer
   const handleIncorrect = () => {
     if (lastAnswered[index] !== "incorrect") {
       if (lastAnswered[index] === "correct") {
@@ -95,11 +103,13 @@ const FlashcardsScreen = () => {
     }
   };
 
+  //if there are no starred cards, display the message
   const cardData = cards[index];
   if (!cardData) {
     return <ActivityIndicator />;
   }
 
+  //app return statement
   return (
     <View style={customStyles.container}>
       <View style={customStyles.scoreContainer}>

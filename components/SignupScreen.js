@@ -11,11 +11,13 @@ import usersData from "../users.json";
 import { customStyles } from '../assets/styles/customStyles';
 
 function SignupScreen({ navigation }) {
+  //initializing the state variables
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  //function to handle the signup
   const handleSignup = () => {
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match.");
@@ -36,6 +38,7 @@ function SignupScreen({ navigation }) {
     navigation.navigate("Login"); // Navigate to the login screen
   };
 
+  //returning the SignupScreen component
   return (
     <View style={customStyles.container}>
       <Image

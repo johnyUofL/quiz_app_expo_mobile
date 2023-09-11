@@ -1,3 +1,4 @@
+//Importing React and other important libraries
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -11,9 +12,11 @@ import { FlipCard } from "../components/FlipCard";
 import data from "../assets/data.json";
 import { customStyles } from "../assets/styles/customStyles";
 
+//adding animation. The animations are gif files located in the assets/animations folder.
 const animationCorrect = require("../assets/animations/correct.gif");
 const animationIncorrect = require("../assets/animations/incorrect.gif");
 
+//initializing the state variables
 const RandomFlashcardsScreen = () => {
   const [index, setIndex] = useState(0);
   const [cards, setCards] = useState([]);
@@ -29,6 +32,7 @@ const RandomFlashcardsScreen = () => {
     setCards(shuffleArray([...data]));
   }, []);
 
+  //shuffling the cards
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -37,6 +41,7 @@ const RandomFlashcardsScreen = () => {
     return array;
   };
 
+  //function to switch the card
   const switchCard = (action) => {
     setIsLoading(true);
     setIsFlipped(false);
@@ -44,18 +49,21 @@ const RandomFlashcardsScreen = () => {
     setIsLoading(false);
   };
 
+  //function to go to the previous card
   const prevCard = () => {
     switchCard(() =>
       setIndex((prev) => (prev > 0 ? prev - 1 : cards.length - 1))
     );
   };
 
+  //function to go to the next card
   const nextCard = () => {
     switchCard(() =>
       setIndex((prev) => (prev < cards.length - 1 ? prev + 1 : 0))
     );
   };
 
+  //function to handle the correct answer
   const handleCorrect = () => {
     if (lastAnswered[index] !== "correct") {
       if (lastAnswered[index] === "incorrect") {
@@ -70,6 +78,7 @@ const RandomFlashcardsScreen = () => {
     }
   };
 
+  //function to handle the incorrect answer
   const handleIncorrect = () => {
     if (lastAnswered[index] !== "incorrect") {
       if (lastAnswered[index] === "correct") {
@@ -89,6 +98,7 @@ const RandomFlashcardsScreen = () => {
     return <ActivityIndicator />;
   }
 
+  //returning the RandomFlashcardsScreen component
   return (
     <View style={customStyles.container}>
       <View style={customStyles.scoreContainer}>

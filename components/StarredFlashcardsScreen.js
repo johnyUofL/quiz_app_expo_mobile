@@ -11,9 +11,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FlipCard } from "../components/FlipCard";
 import { customStyles } from "../assets/styles/customStyles";
 
+//adding animation. The animations are gif files located in the assets/animations folder.
 const animationCorrect = require("../assets/animations/correct.gif");
 const animationIncorrect = require("../assets/animations/incorrect.gif");
 
+//initializing the state variables
 const StarredFlashcardsScreen = () => {
   const [starredCards, setStarredCards] = useState({});
   const [index, setIndex] = useState(0);
@@ -24,6 +26,7 @@ const StarredFlashcardsScreen = () => {
   const [showAnimationIncorrect, setShowAnimationIncorrect] = useState(false);
   const [lastAnswered, setLastAnswered] = useState({});
 
+  //useEffect hook to get the starred cards from the local storage
   useEffect(() => {
     // Load starredCards from 'starred.json' using AsyncStorage
     const loadStarredCards = async () => {
@@ -42,20 +45,24 @@ const StarredFlashcardsScreen = () => {
 
   const starredCardKeys = Object.keys(starredCards);
 
+  //previous card
   const prevCard = () => {
     setIndex((prev) => (prev > 0 ? prev - 1 : starredCardKeys.length - 1));
     setIsFlipped(false);
   };
 
+  //next card
   const nextCard = () => {
     setIndex((prev) => (prev < starredCardKeys.length - 1 ? prev + 1 : 0));
     setIsFlipped(false);
   };
 
+  //toggle flip
   const toggleFlip = () => {
     setIsFlipped(!isFlipped);
   };
 
+  //variables for the current starred card
   const currentStarredCardKey = starredCardKeys[index];
   const currentStarredCard = starredCards[currentStarredCardKey];
 
@@ -83,7 +90,7 @@ const StarredFlashcardsScreen = () => {
       setLastAnswered({ ...lastAnswered, [index]: "correct" });
     }
   };
-
+  //incorrect handler
   const handleIncorrect = () => {
     if (lastAnswered[index] !== "incorrect") {
       if (lastAnswered[index] === "correct") {

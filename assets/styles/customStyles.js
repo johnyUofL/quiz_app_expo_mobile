@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native";
 
 export const customStyles = StyleSheet.create({
+
+  //styles for app. All the styles have been included here. There are comments where the function of the style is not evident. 
   container: {
     flex: 1,
     backgroundColor: "#D5F3FE",
@@ -17,8 +19,7 @@ export const customStyles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderWidth: 2,
-    borderColor: "#0080FF", // Light blue color
-    borderRadius: 8, // Rounded corners
+    borderColor: "#0080FF",
     marginBottom: 10,
   },
   button: {
@@ -190,7 +191,7 @@ export const customStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
+//This are the buttons that show the app's main features in the home screen
   buttonHome: {
     width: 200,
     height: 150,
@@ -207,10 +208,14 @@ export const customStyles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 5,
   },
+
+  //text for the home text
   buttonHomeText: {
     color: "white",
     textAlign: "center",
   },
+
+  //style for the logo in the home screen
   logoHome: {
     width: 50,
     height: 50,

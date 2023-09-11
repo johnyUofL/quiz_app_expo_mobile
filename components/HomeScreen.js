@@ -9,11 +9,13 @@ import {
   Image,
 } from "react-native";
 
+//importing the custom styles
 import { customStyles } from "../assets/styles/customStyles";
 
 function HomeScreen({ route, navigation }) {
   const { username } = route.params;
 
+//logout handler
   const handleLogout = () => {
     Alert.alert(
       "Logout",
@@ -36,6 +38,7 @@ function HomeScreen({ route, navigation }) {
     );
   };
 
+  //returning the HomeScreen component
   return (
     <View style={customStyles.container}>
       <Image
