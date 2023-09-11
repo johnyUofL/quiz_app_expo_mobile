@@ -10,7 +10,6 @@ exp://u.expo.dev/update/2f69fe38-7345-445a-8369-bb6e01f175ef
 
 ![image](https://github.com/johnyUofL/quiz_app_expo_mobile/assets/52664159/36c41442-08d1-4611-87e9-9867934a9ab7)
 
-
 ### For iOS
 
 To use the app use the following link for iOS.
