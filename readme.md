@@ -1,14 +1,14 @@
 # Quiz App for Chinese Characters Readme
 
-##Using the App
+## Using the App
 
-###For Android
+### For Android
 
 To use the app use the following link for Android.
 
 [Expo Update Link](exp://u.expo.dev/update/2f69fe38-7345-445a-8369-bb6e01f175ef)
 
-###For iOS
+### For iOS
 
 To use the app use the following link for iOS.
 
