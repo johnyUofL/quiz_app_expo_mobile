@@ -6,13 +6,13 @@
 
 To use the app use the following link for Android.
 
-[Expo Update Link](exp://u.expo.dev/update/2f69fe38-7345-445a-8369-bb6e01f175ef)
+exp://u.expo.dev/update/2f69fe38-7345-445a-8369-bb6e01f175ef
 
 ### For iOS
 
 To use the app use the following link for iOS.
 
-[Expo Update Link](exp://u.expo.dev/update/ea7dfa28-f73f-4379-a168-8a40128f62b9)
+exp://u.expo.dev/update/ea7dfa28-f73f-4379-a168-8a40128f62b9
 
 ## Installing Locally
 
@@ -32,9 +32,9 @@ Finally, run the app using:
 
 `npx expo start`
 
-Then, use expo go or an emulator to open the app. 
+Then, use expo go or an emulator to open the app.
 
-Use as user:user, and as password: user. Or create a new user and password by signing up. 
+Use as user:user, and as password: user. Or create a new user and password by signing up.
 
 ## Resources Used
 
@@ -44,7 +44,7 @@ The animations used in this project were sourced from [LottieFiles](https://app.
 
 ### Music
 
-The track "Oriental Fever" by Juanitos from the album Exotica was utilized under the [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. Any derivative work that incorporates this track should also be licensed under CC BY-NC-SA. 
+The track "Oriental Fever" by Juanitos from the album Exotica was utilized under the [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. Any derivative work that incorporates this track should also be licensed under CC BY-NC-SA.
 
 Listen to the track or check its license details [here](https://freemusicarchive.org/music/Juanitos/Exotica/juanitos_-_05_-_oriental_fever/).
 
