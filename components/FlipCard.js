@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { StyleSheet, View, Animated } from "react-native";
+import { customStyles } from "../assets/styles/customStyles";
 
 export const FlipCard = ({
   frontContent,
@@ -39,13 +40,17 @@ export const FlipCard = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={customStyles.containerFlipcard}>
       <View>
-        <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
+        <Animated.View style={[customStyles.flipCard, frontAnimatedStyle]}>
           {frontContent}
         </Animated.View>
         <Animated.View
-          style={[styles.flipCard, styles.flipCardBack, backAnimatedStyle]}
+          style={[
+            customStyles.flipCard,
+            customStyles.flipCardBack,
+            backAnimatedStyle,
+          ]}
         >
           {backContent}
         </Animated.View>
@@ -53,33 +58,5 @@ export const FlipCard = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignContent: "center",
-    justifyContent: "center",
-    perspective: 1000,
-  },
-  flipCard: {
-    width: 300,
-    height: 300,
-    backgroundColor: "rgba(0, 142, 204, 0.8)",
-    borderWidth: 5,
-    borderColor: "white",
-    borderRadius: 50,
-    alignItems: "center",
-    justifyContent: "center",
- 
-    backfaceVisibility: "hidden",
-  },
-  flipCardBack: {
-    backgroundColor: "rgba(0, 142, 204, 0.8)",
-    borderWidth: 5,
-    borderColor: "white",
-    borderRadius: 50,
-    position: "absolute",
-    top: 0,
-  },
-});
 
 export default FlipCard;

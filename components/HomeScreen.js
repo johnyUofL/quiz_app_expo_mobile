@@ -9,6 +9,8 @@ import {
   Image,
 } from "react-native";
 
+import { customStyles } from "../assets/styles/customStyles";
+
 function HomeScreen({ route, navigation }) {
   const { username } = route.params;
 
@@ -35,90 +37,36 @@ function HomeScreen({ route, navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={customStyles.container}>
       <Image
         source={require("../assets/logo-small.png")}
-        style={styles.logoScreen}
+        style={customStyles.logoHome}
       />
-      <View style={styles.gridContainer}>
+      <View style={customStyles.gridContainer}>
         <TouchableOpacity
-          style={styles.button}
+          style={customStyles.buttonHome}
           onPress={() => navigation.navigate("Flashcards")}
         >
-          <Text style={styles.buttonText}>Flashcards</Text>
+          <Text style={customStyles.buttonHomeText}>Flashcards</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={customStyles.buttonHome}
           onPress={() => navigation.navigate("RandomFlashcards")}
         >
-          <Text style={styles.buttonText}>Random Flashcards</Text>
+          <Text style={customStyles.buttonHomeText}>Random Flashcards</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={customStyles.buttonHome}
           onPress={() => navigation.navigate("StarredFlashcards")}
         >
-          <Text style={styles.buttonText}>Starred Flashcards</Text>
+          <Text style={customStyles.buttonHomeText}>Starred Flashcards</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.topRightContainer}>
-        <Text style={styles.usernameText}>{username}</Text>
+      <View style={customStyles.topRightContainer}>
+        <Text style={customStyles.usernameText}>{username}</Text>
         <Button title="Logout" onPress={handleLogout} />
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#D5F3FE",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  topRightContainer: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  usernameText: {
-    marginRight: 10,
-  },
-  gridContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    width: 200,
-    height: 150,
-    margin: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#2565AE",
-    borderWidth: 5,
-    borderColor: "white",
-    borderRadius: 50,
-    elevation: 50,
-    shadowColor: "#177EBC",
-    shadowOffset: { width: 0, height: 20 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-  },
-  buttonText: {
-    color: "white",
-    textAlign: "center",
-  },
-
-  logoScreen: {
-    width: 50,
-    height: 50,
-    position: "absolute",
-    top: 5,
-    left: 15,
-  },
-});
-
 export default HomeScreen;

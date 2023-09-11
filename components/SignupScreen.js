@@ -8,6 +8,7 @@ import {
   Image,
 } from "react-native";
 import usersData from "../users.json";
+import { customStyles } from '../assets/styles/customStyles';
 
 function SignupScreen({ navigation }) {
   const [username, setUsername] = useState("");
@@ -36,87 +37,44 @@ function SignupScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={customStyles.container}>
       <Image
         source={require("../assets/logo-medium.png")}
-        style={styles.logo}
+        style={customStyles.logo}
       />
-      <Text style={styles.title}>Signup</Text>
+      <Text style={customStyles.title}>Signup</Text>
       <TextInput
         placeholder="Username"
         value={username}
         onChangeText={setUsername}
-        style={styles.input}
+        style={customStyles.input}
       />
       <TextInput
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        style={styles.input}
+        style={customStyles.input}
       />
       <TextInput
         placeholder="Confirm Password"
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         secureTextEntry
-        style={styles.input}
+        style={customStyles.input}
       />
-      <TouchableOpacity style={styles.button} onPress={handleSignup}>
-        <Text style={styles.buttonText}>Signup</Text>
+      <TouchableOpacity style={customStyles.button} onPress={handleSignup}>
+        <Text style={customStyles.buttonText}>Signup</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.button}
+        style={customStyles.button}
         onPress={() => navigation.navigate("Login")}
       >
-        <Text style={styles.buttonText}>Go to Login</Text>
+        <Text style={customStyles.buttonText}>Go to Login</Text>
       </TouchableOpacity>
-      <Text style={styles.errorMessage}>{errorMessage}</Text>
+      <Text style={customStyles.errorMessage}>{errorMessage}</Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#D5F3FE",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-  },
-  input: {
-    width: "80%",
-    backgroundColor: "white",
-    padding: 10,
-    borderWidth: 2,
-    borderColor: "#0080FF", // Light blue color
-    borderRadius: 8, // Rounded corners
-    marginBottom: 10,
-  },
-  button: {
-    backgroundColor: "#0080FF",
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 18,
-    textAlign: "center",
-  },
-  errorMessage: {
-    color: "red",
-    marginTop: 10,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-});
 
 export default SignupScreen;

@@ -10,6 +10,7 @@ import {
 import { FlipCard } from "../components/FlipCard";
 import data from "../assets/data.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { customStyles } from "../assets/styles/customStyles";
 
 const animationCorrect = require("../assets/animations/correct.gif");
 const animationIncorrect = require("../assets/animations/incorrect.gif");
@@ -25,7 +26,6 @@ const FlashcardsScreen = () => {
   const [showAnimationCorrect, setShowAnimationCorrect] = useState(false);
   const [showAnimationIncorrect, setShowAnimationIncorrect] = useState(false);
   const [lastAnswered, setLastAnswered] = useState({});
-  
 
   useEffect(() => {
     const getStarredCards = async () => {
@@ -101,184 +101,89 @@ const FlashcardsScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.scoreContainer}>
-        <Text style={styles.scoreText}>✓: {correctCount}</Text>
-        <Text style={styles.scoreText}>✘ : {incorrectCount}</Text>
+    <View style={customStyles.container}>
+      <View style={customStyles.scoreContainer}>
+        <Text style={customStyles.scoreText}>✓: {correctCount}</Text>
+        <Text style={customStyles.scoreText}>✘ : {incorrectCount}</Text>
       </View>
       <FlipCard
         isFlipped={isFlipped}
         setIsFlipped={setIsFlipped}
         frontContent={
-          <Text style={styles.flipTextFront}>{cardData.character}</Text>
+          <Text style={customStyles.flipTextFront}>{cardData.character}</Text>
         }
         backContent={
           isFlipped ? (
-            <Text style={styles.flipTextBack}>
+            <Text style={customStyles.flipTextBack}>
               ({cardData.pinyin}){"\n"}
               {"\n"}
               {cardData.meaning}
             </Text>
           ) : (
-            <Text style={styles.flipTextBack}></Text>
+            <Text style={customStyles.flipTextBack}></Text>
           )
         }
       />
 
       {isFlipped && (
-        <View style={styles.guessContainer}>
+        <View style={customStyles.guessContainer}>
           {/* Correct button */}
           <TouchableOpacity
             onPress={handleCorrect}
-            style={styles.correctButton}
+            style={customStyles.correctButton}
           >
-            <Text style={styles.buttonText}>Correct</Text>
+            <Text style={customStyles.buttonText}>Correct</Text>
           </TouchableOpacity>
           {/* End correct button*/}
 
           {/* Incorrect button */}
           <TouchableOpacity
             onPress={handleIncorrect}
-            style={styles.incorrectButton}
+            style={customStyles.incorrectButton}
           >
-            <Text style={styles.buttonText}>Incorrect</Text>
+            <Text style={customStyles.buttonText}>Incorrect</Text>
           </TouchableOpacity>
 
           {/* End incorrect button */}
         </View>
       )}
 
-      <View style={styles.starContainer}>
-        <TouchableOpacity onPress={toggleStar} style={styles.starButton}>
-          <Text style={styles.buttonText}>{isStarred ? "★" : "☆"}</Text>
+      <View style={customStyles.starContainer}>
+        <TouchableOpacity onPress={toggleStar} style={customStyles.starButton}>
+          <Text style={customStyles.buttonText}>{isStarred ? "★" : "☆"}</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.arrowContainer}>
+      <View style={customStyles.arrowContainer}>
         <TouchableOpacity onPress={prevCard}>
-          <Text style={styles.arrow}>{"<"}</Text>
+          <Text style={customStyles.arrow}>{"<"}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setIsFlipped(!isFlipped)}
-          style={styles.flipButton}
+          style={customStyles.flipButton}
         >
-          <Text style={styles.flipButtonText}>Flip</Text>
+          <Text style={customStyles.flipButtonText}>Flip</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={nextCard}>
-          <Text style={styles.arrow}>{">"}</Text>
+          <Text style={customStyles.arrow}>{">"}</Text>
         </TouchableOpacity>
       </View>
 
       {showAnimationCorrect && (
-        <Image source={animationCorrect} style={styles.animationStyleCorrect} />
+        <Image
+          source={animationCorrect}
+          style={customStyles.animationStyleCorrect}
+        />
       )}
 
       {showAnimationIncorrect && (
         <Image
           source={animationIncorrect}
-          style={styles.animationStyleIncorrect}
+          style={customStyles.animationStyleIncorrect}
         />
       )}
     </View>
   );
 };
-
-// Styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#9bedff",
-  },
-  flipTextFront: {
-    color: "white",
-    fontSize: 200,
-  },
-  flipTextBack: {
-    padding: 40,
-    color: "white",
-    fontSize: 40,
-  },
-  arrow: {
-    color: "#0080FF",
-    fontSize: 100,
-  },
-  arrowContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: 250,
-  },
-  flipButton: {
-    backgroundColor: "rgba(0, 142, 204, 0.9)",
-    padding: 10,
-    borderRadius: 10,
-  },
-  flipButtonText: {
-    color: "white",
-    fontSize: 40,
-  },
-  guessContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: 300,
-    marginTop: 20,
-  },
-  correctButton: {
-    backgroundColor: "green",
-    padding: 10,
-    borderRadius: 10,
-    marginRight: 10,
-  },
-  incorrectButton: {
-    backgroundColor: "red",
-    padding: 10,
-    borderRadius: 10,
-    marginLeft: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 20,
-  },
-  scoreContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: 250,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  scoreText: {
-    color: "navy",
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  starContainer: {
-    marginTop: 10,
-  },
-  starButton: {
-    backgroundColor: "#ffca3a",
-    padding: 10,
-    borderRadius: 10,
-  },
-
-  animationStyleCorrect: {
-    position: "absolute",
-    width: 200,
-    height: 200,
-    alignSelf: "center",
-    zIndex: 1000,
-  },
-
-  animationStyleIncorrect: {
-    position: "absolute",
-    width: 200,
-    height: 200,
-    alignSelf: "center",
-    zIndex: 1000,
-  },
-});
 
 export default FlashcardsScreen;
