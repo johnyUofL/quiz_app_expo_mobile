@@ -8,11 +8,17 @@ To use the app use the following link for Android.
 
 exp://u.expo.dev/update/2f69fe38-7345-445a-8369-bb6e01f175ef
 
+![image](https://github.com/johnyUofL/quiz_app_expo_mobile/assets/52664159/36c41442-08d1-4611-87e9-9867934a9ab7)
+
+
 ### For iOS
 
 To use the app use the following link for iOS.
 
 exp://u.expo.dev/update/ea7dfa28-f73f-4379-a168-8a40128f62b9
+
+![image](https://github.com/johnyUofL/quiz_app_expo_mobile/assets/52664159/5b5dee38-2c4c-4e24-9f57-c07ec8d7770c)
+
 
 ## Installing Locally
 
